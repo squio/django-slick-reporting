@@ -72,10 +72,12 @@ class SlickReportViewBase(FormView):
         """ Returns the JSON string for the compiled data object. """
 
         def date_handler(obj):
-            if type(obj) is datetime.datetime:
+            if isinstance(obj, datetime.datetime):
                 return obj.strftime('%Y-%m-%d %H:%M')
             elif hasattr(obj, 'isoformat'):
                 return obj.isoformat()
+            elif isinstance(obj, datetime.timedelta):
+                return obj.total_seconds()
             elif isinstance(obj, Promise):
                 return force_text(obj)
 
